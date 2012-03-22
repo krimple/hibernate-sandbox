@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
+
+    <bean id="sessionFactory"
+          class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+                
+        <property name="packagesToScan">
+            <list>
+                <!-- <value>chariot.hibernate.sandbox.inheritance</value> -->
+                <!-- <value>chariot.hibernate.sandbox.embedding</value> -->
+
+                <!--<value>chariot.hibernate.sandbox.*.data.entities.*</value> -->
+                <!--<value>chariot.hibernate.sandbox.relationships.data.components.one2manyset</value>-->
+                <!--<value>chariot.hibernate.sandbox.components.one2many.comp.idbag</value>-->
+                <!--<value>chariot.hibernate.sandbox.entities.map</value>-->
+                <value>chariot.hibernate.sandbox.common</value>
+                <value>chariot.hibernate.sandbox.nonset</value>
+            </list>
+        </property>
+        
+        <property name="hibernateProperties">
+            <value>
+                hibernate.show_sql=true
+                hibernate.format_sql=true
+                hibernate.dialect=org.hibernate.dialect.Oracle10gDialect
+                hibernate.hbm2ddl.auto=create
+                hibernate.cache.region.factory_class=net.sf.ehcache.hibernate.EhCacheRegionFactory
+            </value>
+
+        </property>
+    </bean>
+
+    <bean id="transactionManager"
+          class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <tx:annotation-driven/>
+</beans>
